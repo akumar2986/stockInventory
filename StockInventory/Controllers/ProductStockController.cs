@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Stock.Web.Core.BAL;
@@ -8,6 +9,7 @@ using Stock.Web.Utility;
 
 namespace Stock.Web.Controllers
 {
+    [Authorize]
     public class ProductStockController : Controller
     {
         private readonly IStockBll _stockBll;
