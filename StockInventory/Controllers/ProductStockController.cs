@@ -4,23 +4,27 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Stock.Web.Core.BAL;
 using Stock.Web.Models;
+using Stock.Web.Utility;
 
 namespace Stock.Web.Controllers
 {
     public class ProductStockController : Controller
     {
         private readonly IStockBll _stockBll;
+        private ILog _logger;
 
-        public ProductStockController(IStockBll stockBll)
+        public ProductStockController(IStockBll stockBll,ILog logger)
         {
               _stockBll = stockBll;
+            _logger = logger;
         }
 
 
         // GET: productstocks
         public ActionResult Index()
         {
-            return View(_stockBll.GetAllProductStocks().ToList());           
+            _logger.Information("fetch product stock service started");
+            return View(_stockBll.GetAllProductStocks().ToList());
         }
 
         // GET: stocks/Details/5
@@ -30,10 +34,7 @@ namespace Stock.Web.Controllers
             {
                 return NotFound();
             }
-
-            //var pstocks = await _context.ProductStocks
-            //    .SingleOrDefaultAsync(m => m.ProductStockID == id);
-
+            
             var pstocks = _stockBll.GetStockData(id);
 
             if (pstocks == null)
@@ -52,10 +53,9 @@ namespace Stock.Web.Controllers
 
         // POST: ProductStock/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("BatchId,Name,Variety,Quantity")] StockModel stockModel)
+        public async Task<IActionResult> Create([Bind("StockId,Name,Variety,Quantity")] StockModel stockModel)
         {
             if (ModelState.IsValid)
             {
@@ -66,7 +66,7 @@ namespace Stock.Web.Controllers
             return View(stockModel);
         }
 
-        // GET: Players/Edit/5
+        // GET: stock/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -83,9 +83,8 @@ namespace Stock.Web.Controllers
             return View(pstock);
         }
 
-        // POST: Players/Edit/5
+        // POST: stock/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("ID,Tag,EnrollmentDate")] StockModel productStock)
@@ -118,7 +117,7 @@ namespace Stock.Web.Controllers
             return View(productStock);
         }
 
-        // GET: Players/Delete/5
+        // GET: stock/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -127,9 +126,6 @@ namespace Stock.Web.Controllers
             }
 
             var pstock = _stockBll.GetStockData(id);
-
-            //var player = await _context.ProductStocks
-            //    .SingleOrDefaultAsync(m => m.ProductStockID == id);
             if (pstock == null)
             {
                 return NotFound();
@@ -145,11 +141,6 @@ namespace Stock.Web.Controllers
         {
             _stockBll.DeleteProductStock(id);
             return RedirectToAction(nameof(Index));
-
-            //var pstock = await _context.ProductStocks.SingleOrDefaultAsync(m => m.ProductStockID == id);
-            //_context.ProductStocks.Remove(pstock);
-            //await _context.SaveChangesAsync();
-
         }
 
         private bool ProductExists(int id)

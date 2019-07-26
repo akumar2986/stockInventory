@@ -1,24 +1,31 @@
 ﻿using System.Linq;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Stock.Web.Core.BAL;
 using Stock.Web.Models;
+using Stock.Web.Utility;
 
 namespace Stock.Web.Controllers
 {
+    [Authorize]
     public class BatchController : Controller
     {
         private readonly IBatchBll _batchBll;
+        private ILog _logger;
 
-        public BatchController(IBatchBll stockBll)
+        public BatchController(IBatchBll stockBll, ILog logger)
         {
               _batchBll = stockBll;
+            _logger = logger;
         }
 
 
         // GET: batches
         public IActionResult Index()
         {
+            _logger.Information("starting batch services");
             return View(_batchBll.GetAllBatchStocks().ToList());
         }
 

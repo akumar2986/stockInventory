@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -6,7 +7,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Stock.Web.Core.BAL;
 using Stock.Web.Data;
 using Stock.Web.Data.Repository;
-using Stock.Web.Data.Repository;
+
+
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
+using Stock.Web.Utility;
 
 namespace Stock.Web
 {
@@ -23,20 +28,36 @@ namespace Stock.Web
         public void ConfigureServices(IServiceCollection services)
         {
             //services.AddSingleton<IStockBll, StockBll>();
-           
+
 
             services.AddDbContext<StockContext>(options =>
                 options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
+            InjectDependency(services);
+
+            services.Configure<CookiePolicyOptions>(options =>
+            {
+                // This lambda determines whether user consent for non-essential cookies is needed for a given request.  
+                // options.CheckConsentNeeded = context => true;
+                options.MinimumSameSitePolicy = SameSiteMode.None;
+            });
+
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
+
+            services.AddMvc();
+        }
+
+        private static void InjectDependency(IServiceCollection services)
+        {
             services.AddTransient<IBatchBll, BatchBll>();
             services.AddTransient<IBatchRepository, BatchRepository>();
             services.AddTransient<IDataRepository<Product>, ProductRepository>();
             services.AddTransient<IDataRepository<ProductStock>, ProductStockRepository>();
             services.AddTransient<IStockBll, StockBll>();
-            services.AddMvc();
+            services.AddSingleton<ILog, Log>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             if (env.IsDevelopment())
             {
@@ -50,10 +71,14 @@ namespace Stock.Web
 
             app.UseStaticFiles();
 
+            app.UseCookiePolicy();
+            app.UseAuthentication();
+
+           
             app.UseMvc(routes =>
             {
                 routes.MapRoute(name: "default", template: "{controller=Batch}/{action=Index}/{id?}");
-                //routes.MapRoute(name: "batch", template: "{controller=Batch}/{action=Index}/{id?}");
+                
                 routes.MapRoute(name: "api", template: "api/{controller=ProductStockAPI}");                
             });
 
