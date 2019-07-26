@@ -21,29 +21,36 @@ namespace Stock.Web.Core.BAL
         //To View all employees details    
         public IEnumerable<StockModel> GetAllProductStocks()
         {
-            List<StockModel> lststocks = new List<StockModel>();
-
-            var stocks = _productStockRepository.GetAll();
-            foreach (var data in stocks)
+            try
             {
-                StockModel stockModel = new StockModel();
-                stockModel.StockId = data.ProductStockID;
-                stockModel.Name = data.Product.ProductName;
-                stockModel.Quantity = data.Quantity;
-                stockModel.Variety = data.Variety.Name;
-                lststocks.Add(stockModel);
+                List<StockModel> lststocks = new List<StockModel>();
+
+                var stocks = _productStockRepository.GetAll();
+                foreach (var data in stocks)
+                {
+                    StockModel stockModel = new StockModel();
+                    stockModel.StockId = data.ProductStockID;
+                    stockModel.Name = data.Product.ProductName;
+                    stockModel.Quantity = data.Quantity;
+                    stockModel.Variety = data.Variety.Name;
+                    lststocks.Add(stockModel);
+                }
+                return lststocks;
             }
-            return lststocks;
+            catch(Exception ex)
+            {
+                throw ex;
+            }
         }
 
         //To Add new stock record    
-        public void AddProductStock(StockModel employee)
+        public void AddProductStock(StockModel stock)
         {
 
         }
 
         //To Update the records of a particluar batch/stock  
-        public void UpdateProductStock(StockModel employee)
+        public void UpdateProductStock(StockModel stock)
         {
 
         }

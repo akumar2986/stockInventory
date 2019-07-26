@@ -1,19 +1,13 @@
-using Microsoft.EntityFrameworkCore;
 using Stock.Web.Data;
 using Stock.Web.Data.Repository;
 using Stock.Web.Models;
-using System;  
-using System.Collections.Generic;  
-using System.Data;  
-using System.Data.SqlClient;  
-using System.Linq;  
-using System.Threading.Tasks;  
-  
-namespace Stock.Web.Core.BAL
-{  
-    public class BatchBll:IBatchBll
-    {
+using System;
+using System.Collections.Generic;
 
+namespace Stock.Web.Core.BAL
+{
+    public class BatchBll : IBatchBll
+    {
         private readonly IBatchRepository _batchRepository;
 
         public BatchBll(StockContext context, IBatchRepository dataRepository,
@@ -26,19 +20,26 @@ namespace Stock.Web.Core.BAL
         //To View all batch details    
         public IEnumerable<BatchModel> GetAllBatchStocks()
         {
-            List<BatchModel> lstBatchs = new List<BatchModel>();
-
-            var batchstock = _batchRepository.GetAllBatches();
-            foreach (var data in batchstock)
+            try
             {
-                BatchModel batchModel = new BatchModel();
-                batchModel.BatchId = data.BatchId;
-                batchModel.Name = data.Product.ProductName;
-                batchModel.Quantity = data.Quantity;
-                batchModel.Variety = data.Variety.Name;
-                lstBatchs.Add(batchModel);
+                List<BatchModel> lstBatchs = new List<BatchModel>();
+
+                var batchstock = _batchRepository.GetAllBatches();
+                foreach (var data in batchstock)
+                {
+                    BatchModel batchModel = new BatchModel();
+                    batchModel.BatchId = data.BatchId;
+                    batchModel.Name = data.Product.ProductName;
+                    batchModel.Quantity = data.Quantity;
+                    batchModel.Variety = data.Variety.Name;
+                    lstBatchs.Add(batchModel);
+                }
+                return lstBatchs;
             }
-            return lstBatchs;
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         //To Add new Batch record    
@@ -50,7 +51,7 @@ namespace Stock.Web.Core.BAL
             }
             catch (Exception ex)
             {
-
+                throw ex;
             }
         }
 
@@ -58,24 +59,39 @@ namespace Stock.Web.Core.BAL
         //Get the details of a particular Batch  
         public BatchModel GetBatchData(long? id)
         {
-            BatchModel batchModel = new BatchModel();
-            var batchstock = _batchRepository.GetAllBatchesById(id.Value);
-
-            if (batchstock != null)
+            try
             {
+                BatchModel batchModel = new BatchModel();
+                var batchstock = _batchRepository.GetAllBatchesById(id.Value);
 
-                batchModel.BatchId = batchstock.BatchId;
-                batchModel.Name = batchstock.Product.ProductName;
-                batchModel.Quantity = batchstock.Quantity;
-                batchModel.Variety = batchstock.Variety.Name;
+                if (batchstock != null)
+                {
+
+                    batchModel.BatchId = batchstock.BatchId;
+                    batchModel.Name = batchstock.Product.ProductName;
+                    batchModel.Quantity = batchstock.Quantity;
+                    batchModel.Variety = batchstock.Variety.Name;
+                }
+                return batchModel;
             }
-            return batchModel;
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
         }
-  
+
         //To Delete the record on a particular Batch  
-        public void DeleteBatchStock(long id)  
+        public void DeleteBatchStock(long id)
         {
-            _batchRepository.Delete(id);
-        }        
-    }  
+            try
+            {
+                _batchRepository.Delete(id);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+    }
 }  

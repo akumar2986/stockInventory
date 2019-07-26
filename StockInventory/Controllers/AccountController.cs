@@ -13,10 +13,10 @@ namespace Stock.Web.Controllers
     public class AccountController : Controller
     {
         [HttpGet]
-        public IActionResult Login(string returnUrl = "")
+        public IActionResult Login()
         {
-            var model = new LoginViewModel { ReturnUrl = returnUrl };
-            return View(model);
+            //var model = new LoginViewModel { ReturnUrl = returnUrl };
+            return View();
         }
 
         [HttpPost]
