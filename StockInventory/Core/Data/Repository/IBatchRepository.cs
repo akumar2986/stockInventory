@@ -1,4 +1,5 @@
 ﻿using Stock.Web.Data;
+using Stock.Web.Entities;
 using System.Collections.Generic;
 
 namespace Stock.Web.Data.Repository
@@ -12,6 +13,6 @@ namespace Stock.Web.Data.Repository
         void Delete(long id);
         List<Batch> GetAllBatches();
         Batch GetAllBatchesById(long id);
-        void AddUpdateBatchStock(int? batchid, int quantity, string productName, string varietyName);
+        int AddUpdateBatchStock(int? batchid, int quantity, string productName, string varietyName);
     }
 }

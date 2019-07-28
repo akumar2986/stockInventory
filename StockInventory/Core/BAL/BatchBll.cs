@@ -1,5 +1,6 @@
 using Stock.Web.Data;
 using Stock.Web.Data.Repository;
+using Stock.Web.Entities;
 using Stock.Web.Models;
 using System;
 using System.Collections.Generic;
@@ -10,8 +11,7 @@ namespace Stock.Web.Core.BAL
     {
         private readonly IBatchRepository _batchRepository;
 
-        public BatchBll(StockContext context, IBatchRepository dataRepository,
-            IDataRepository<Product> productRepository)
+        public BatchBll(IBatchRepository dataRepository)
         {
             _batchRepository = dataRepository;
         }

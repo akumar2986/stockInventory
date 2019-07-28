@@ -1,5 +1,6 @@
 ﻿using Stock.Web.Data;
 using Stock.Web.Data.Repository;
+using Stock.Web.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;

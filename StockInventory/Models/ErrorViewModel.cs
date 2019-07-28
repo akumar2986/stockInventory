@@ -1,6 +1,6 @@
 using System;
 
-namespace MvcAdoDemo.Models
+namespace Stock.Web.Models
 {
     public class ErrorViewModel
     {

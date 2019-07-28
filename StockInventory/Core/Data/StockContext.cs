@@ -1,11 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Stock.Web.Data;
+using Stock.Web.Entities;
 
 namespace Stock.Web.Data
 {
     public class StockContext : DbContext
     {
-        public StockContext(DbContextOptions<StockContext> options) : base(options) { }
+        public StockContext(DbContextOptions<StockContext> options) : base(options) {}
         
         public DbSet<Product> Products { get; set; }
         public DbSet<Variety> Varieties { get; set; }

@@ -1,12 +1,10 @@
 using Stock.Web.Data;
 using Stock.Web.Data.Repository;
-using Stock.Web.Models;
+using Stock.Web;
 using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Data.SqlClient;
-using System.Linq;
-using System.Threading.Tasks;
+using Stock.Web.Models;
+using Stock.Web.Entities;
 
 namespace Stock.Web.Core.BAL
 {

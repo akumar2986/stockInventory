@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Stock.Web.Data
+namespace Stock.Web.Entities
 {
     public class Variety
     {

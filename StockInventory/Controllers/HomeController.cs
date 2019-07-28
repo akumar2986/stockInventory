@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Stock.Web.Data;
+using Stock.Web.Models;
 
 namespace Stock.Web.Controllers
 {

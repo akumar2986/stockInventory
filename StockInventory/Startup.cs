@@ -7,11 +7,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Stock.Web.Core.BAL;
 using Stock.Web.Data;
 using Stock.Web.Data.Repository;
-
-
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Stock.Web.Utility;
+using Stock.Web.Entities;
 
 namespace Stock.Web
 {

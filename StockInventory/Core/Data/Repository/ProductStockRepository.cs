@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using Stock.Web.Entities;
+using System.Collections.Generic;
 using System.Linq;
-using Stock.Web.Data.Repository;
 
 
 namespace Stock.Web.Data.Repository
