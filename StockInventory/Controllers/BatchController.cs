@@ -21,7 +21,6 @@ namespace Stock.Web.Controllers
             _logger = logger;
         }
 
-
         // GET: batches
         public IActionResult Index()
         {

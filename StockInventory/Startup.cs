@@ -78,7 +78,7 @@ namespace Stock.Web
             {
                 routes.MapRoute(name: "default", template: "{controller=Batch}/{action=Index}/{id?}");
                 
-                routes.MapRoute(name: "api", template: "api/{controller=ProductStockAPI}");                
+                routes.MapRoute(name: "api", template: "api/{controller=StockAPI}");                
             });
 
         }
