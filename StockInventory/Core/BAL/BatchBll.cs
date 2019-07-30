@@ -33,7 +33,7 @@ namespace Stock.Web.Core.BAL
                     batchModel.Quantity = data.Quantity;
                     batchModel.Variety = data.Variety.Name;
                     lstBatchs.Add(batchModel);
-                }
+                } 
                 return lstBatchs;
             }
             catch (Exception ex)

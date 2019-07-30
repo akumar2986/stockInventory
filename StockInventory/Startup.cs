@@ -56,7 +56,7 @@ namespace Stock.Web
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILog logger)
         {
             if (env.IsDevelopment())
             {
@@ -68,6 +68,7 @@ namespace Stock.Web
                 app.UseExceptionHandler("/Home/Error");
             }
 
+            app.ConfigureExceptionHandler(logger);
             app.UseStaticFiles();
 
             app.UseCookiePolicy();
