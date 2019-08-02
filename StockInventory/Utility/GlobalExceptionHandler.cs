@@ -1,13 +1,8 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Logging;
 using Stock.Web.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Threading.Tasks;
 
 namespace Stock.Web.Utility
 {
@@ -26,7 +21,6 @@ namespace Stock.Web.Utility
                     if (contextFeature != null)
                     {
                         logger.Error($"Something went wrong: {contextFeature.Error}");
-
                         await context.Response.WriteAsync(new ErrorDetailModel()
                         {
                             StatusCode = context.Response.StatusCode,

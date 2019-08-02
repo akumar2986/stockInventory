@@ -1,4 +1,5 @@
 ﻿
+using Microsoft.Extensions.Logging;
 using NLog;
 using System;
 using System.Collections.Generic;
@@ -13,34 +14,40 @@ namespace Stock.Web.Utility
         void Warning(string message);
         void Debug(string message);
         void Error(string message);
+        void LogInformation(EventId eventId, string message, params object[] args);
     }
     public class Log: ILog
     {
-        private static ILogger logger = LogManager.GetCurrentClassLogger();
-
-        public Log()
+        private static Microsoft.Extensions.Logging.ILogger logger;
+        
+        public Log(ILoggerFactory loggerFactory)
         {
+            logger = loggerFactory.CreateLogger<Log>();
         }
 
         public void Information(string message)
         {
-            logger.Info(message);
+            logger.LogInformation(message);
         }
 
         public void Warning(string message)
         {
-            logger.Warn(message);
+            logger.LogWarning(message);
         }
 
         public void Debug(string message)
         {
-            logger.Debug(message);
+            logger.LogDebug(message);
         }
 
         public void Error(string message)
         {
-            logger.Error(message);
+            logger.LogError(message);
         }
 
+        public void LogInformation(EventId eventId, string message, params object[] args)
+        {
+            logger.LogInformation(eventId, message);
+        }
     }
 }

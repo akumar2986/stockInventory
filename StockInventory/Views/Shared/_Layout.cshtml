@@ -17,9 +17,7 @@
     </environment>
 </head>
 <body>
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-        @if (User.Identity.IsAuthenticated)
-        {
+    <nav class="navbar navbar-inverse navbar-fixed-top">        
             <div class="container">
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -35,16 +33,10 @@
                         <li><a asp-area="" asp-controller="ProductStock" asp-action="Index">Stock</a></li>
                         <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
                         <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
-                        <li><a asp-area="" asp-controller="Account" asp-action="Logout">LogOut</a></li>
-                        <li><b><div style="color:white">Hello @User.Identity.Name</div></b></li>
                     </ul>
+                    @await Html.PartialAsync("_LoginPartial")
                 </div>
-            </div>
-        }
-        else
-        {
-        <a asp-controller="Account" asp-action="Login">Login</a>
-        }
+            </div>       
     </nav>
     <div class="container body-content">
         @RenderBody()

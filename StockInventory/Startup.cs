@@ -11,6 +11,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Stock.Web.Utility;
 using Stock.Web.Entities;
+using Stock.Web.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace Stock.Web
 {
@@ -31,7 +33,14 @@ namespace Stock.Web
 
             services.AddDbContext<StockContext>(options =>
                 options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
+
+            //services.AddDbContext<ApplicationDbContext>(options =>
+            //     options.UseSqlite(
+            //         Configuration.GetConnectionString("DefaultConnection")));
+
             InjectDependency(services);
+
+
 
             services.Configure<CookiePolicyOptions>(options =>
             {
@@ -47,6 +56,11 @@ namespace Stock.Web
 
         private static void InjectDependency(IServiceCollection services)
         {
+            services.AddIdentity<ApplicationUser, IdentityRole>()
+                .AddEntityFrameworkStores<StockContext>()
+                .AddDefaultTokenProviders();
+
+
             services.AddTransient<IBatchBll, BatchBll>();
             services.AddTransient<IBatchRepository, BatchRepository>();
             services.AddTransient<IDataRepository<Product>, ProductRepository>();

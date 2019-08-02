@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -62,13 +63,22 @@ namespace Stock.Web.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Create([Bind("BatchId,Name,Variety,Quantity")] BatchModel batchemodel)
         {
-            if (ModelState.IsValid)
+            try
             {
-                _batchBll.AddUpdateBatchStock(batchemodel);
+                if (ModelState.IsValid)
+                {
+                    _batchBll.AddUpdateBatchStock(batchemodel);
+
+                    return RedirectToAction(nameof(Index));
+                }
                 
-                return RedirectToAction(nameof(Index));
+                return View(batchemodel);
             }
-            return View(batchemodel);
+            catch (Exception ex)
+            {
+                _logger.Error($"Something went wrong: {ex}");
+                return RedirectToAction("Error", "Home");
+            }
         }
 
         // GET: batch/Edit/5
@@ -107,7 +117,7 @@ namespace Stock.Web.Controllers
                    _batchBll.AddUpdateBatchStock(productStock);
                    
                 }
-                catch (DbUpdateConcurrencyException)
+                catch (Exception ex)
                 {
                     if (!ProductExists(productStock.BatchId))
                     {
@@ -115,7 +125,7 @@ namespace Stock.Web.Controllers
                     }
                     else
                     {
-                        throw;
+                        throw ex;
                     }
                 }
                 return RedirectToAction(nameof(Index));
